@@ -26,6 +26,9 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import com.solution.pointapi.common.exception.*
+import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointListRequest
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -341,6 +344,7 @@ class RewardPointServiceTest @Autowired constructor(
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val memberId = 1
+		val request = RewardPointListRequest("2022-11-26")
 		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val expected : List<RewardPoint>  = listOf(RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
 			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
@@ -352,15 +356,15 @@ class RewardPointServiceTest @Autowired constructor(
 			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
 			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
 			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false))
-
-		Mockito.`when`(pointRepository.findByUpdatedAt(fromDateTime,toDateTime)).thenReturn(expected)
+		val pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").ascending())
+		Mockito.`when`(pointRepository.findByUpdatedAt(fromDateTime,toDateTime, pageRequest)).thenReturn(expected)
 
 		//when
 		val pointService = RewardPointService(pointRepository, memberPointService, rewardService)
-		val actual = pointService.getList("2022-11-26")
+		val actual = pointService.getList(request, pageRequest)
 
 		//then
-		Mockito.verify(pointRepository, Mockito.times(1)).findByUpdatedAt(fromDateTime,toDateTime)
+		Mockito.verify(pointRepository, Mockito.times(1)).findByUpdatedAt(fromDateTime,toDateTime,pageRequest)
 		assertEquals(expected, actual)
 	}
 }

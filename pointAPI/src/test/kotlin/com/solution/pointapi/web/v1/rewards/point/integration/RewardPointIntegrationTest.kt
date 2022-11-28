@@ -173,7 +173,7 @@ class RewardPointIntegrationTest @Autowired constructor(
 
 		//when
 		val result: ResultActions = mockMvc.perform(
-			MockMvcRequestBuilders.get("/rewards/points/$searchDate")
+			MockMvcRequestBuilders.get("/rewards/points/list?").param("searchDate", searchDate)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 

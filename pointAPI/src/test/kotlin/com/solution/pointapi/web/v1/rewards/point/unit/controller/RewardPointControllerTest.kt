@@ -3,6 +3,7 @@ package com.solution.pointapi.web.v1.rewards.point.unit.controller
 import com.solution.pointapi.web.v1.member.entity.MemberPoint
 import com.solution.pointapi.web.v1.point.service.RewardPointService
 import com.solution.pointapi.web.v1.rewards.point.controller.RewardPointController
+import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointListRequest
 import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointListResponse
 import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointPutRequest
 import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointResponse
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.net.URI
@@ -83,17 +86,19 @@ class RewardPointControllerTest @Autowired constructor(
 			RewardPoint(memberPoint = memberPoints[1], point = 0),
 			RewardPoint(memberPoint = memberPoints[2], point = 0))
 		val searchDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+		val request = RewardPointListRequest(searchDate)
+		val pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").ascending())
 		val expected: ResponseEntity<RewardPointListResponse> = ResponseEntity.ok(RewardPointListResponse.of(points))
 
 
-		Mockito.`when`(rewardPointService.getList(searchDate)).thenReturn(points)
+		Mockito.`when`(rewardPointService.getList(request,pageRequest)).thenReturn(points)
 
 		//when
 		val pointController = RewardPointController(rewardPointService)
-		val actual = pointController.list(searchDate)
+		val actual = pointController.list(pageRequest, request)
 
 		//then
-		Mockito.verify(rewardPointService, Mockito.times(1)).getList(searchDate)
+		Mockito.verify(rewardPointService, Mockito.times(1)).getList(request, pageRequest)
 
 		Assertions.assertEquals(expected.body!!.getData(), actual.body!!.getData())
 		Assertions.assertEquals(expected.statusCode, actual.statusCode)

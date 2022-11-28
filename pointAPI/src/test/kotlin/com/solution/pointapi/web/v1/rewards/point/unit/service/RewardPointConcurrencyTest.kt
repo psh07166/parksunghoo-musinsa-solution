@@ -2,6 +2,7 @@ package com.solution.pointapi.web.v1.rewards.point.unit.service
 
 import com.solution.pointapi.web.v1.member.repository.MemberPointRepository
 import com.solution.pointapi.web.v1.point.service.RewardPointService
+import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointListRequest
 import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointPutRequest
 import com.solution.pointapi.web.v1.rewards.point.repository.RewardPointRepository
 import org.junit.jupiter.api.Assertions
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.CountDownLatch
@@ -28,7 +31,7 @@ class RewardPointConcurrencyTest @Autowired constructor(
 		val numberOfExcute = 60
 		val service = Executors.newFixedThreadPool(20)
 		val latch = CountDownLatch(numberOfExcute)
-
+		val pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").ascending())
 		for (i in 0 until numberOfExcute) {
 			service.execute {
 				try {
@@ -44,7 +47,8 @@ class RewardPointConcurrencyTest @Autowired constructor(
 		}
 		latch.await();
 		val searchDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-		val pointResult = rewardPointService.getList(searchDate)
+		val request = RewardPointListRequest(searchDate)
+		val pointResult = rewardPointService.getList(request, pageRequest)
 		Assertions.assertEquals(10, pointResult.size)
 		Assertions.assertEquals(10, successCount.get())
 

@@ -1,6 +1,7 @@
 package com.solution.pointapi.web.v1.rewards.point.repository
 
 import com.solution.pointapi.web.v1.rewards.point.entity.RewardPoint
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Query
@@ -12,10 +13,10 @@ interface RewardPointRepository: JpaRepository<RewardPoint, Int> {
 	@Query("select p from RewardPoint p where p.pointId >= :id and p.delFlg = false ")
 	fun findByPointId(id: Int): RewardPoint?
 
-	@Query("select p from RewardPoint p join fetch p.memberPoint where p.updatedAt >= :fromUpdateAt and p.updatedAt <= :toUpdateAt and p.delFlg = false order by p.updatedAt asc ")
-	fun findByUpdatedAt(fromUpdateAt: LocalDateTime, toUpdateAt: LocalDateTime): List<RewardPoint>
+	@Query("select p from RewardPoint p join fetch p.memberPoint where p.updatedAt >= :fromUpdateAt and p.updatedAt <= :toUpdateAt and p.delFlg = false ")
+	fun findByUpdatedAt(fromUpdateAt: LocalDateTime, toUpdateAt: LocalDateTime, pageable: Pageable): List<RewardPoint>
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select p from RewardPoint p where p.memberPoint.memberId = :id and p.updatedAt >= :fromUpdateAt and p.updatedAt <= :toUpdateAt and p.delFlg = false order by p.updatedAt asc ")
+	@Query("select p from RewardPoint p where p.memberPoint.memberId = :id and p.updatedAt >= :fromUpdateAt and p.updatedAt <= :toUpdateAt and p.delFlg = false ")
 	fun findByMemberIdAndUpdatedAtForUpdate(id: Int, fromUpdateAt: LocalDateTime, toUpdateAt: LocalDateTime): RewardPoint?
 }

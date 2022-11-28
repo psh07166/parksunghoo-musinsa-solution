@@ -3,10 +3,12 @@ package com.solution.pointapi.web.v1.point.service
 import com.solution.pointapi.common.exception.IllegalArgumentException
 import com.solution.pointapi.common.exception.ResourceNotFoundException
 import com.solution.pointapi.web.v1.member.service.MemberPointService
+import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointListRequest
 import com.solution.pointapi.web.v1.rewards.point.dto.RewardPointPutRequest
 import com.solution.pointapi.web.v1.rewards.point.entity.RewardPoint
 import com.solution.pointapi.web.v1.rewards.point.repository.RewardPointRepository
 import com.solution.pointapi.web.v1.rewards.reward.service.RewardService
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -75,13 +77,13 @@ class RewardPointService(
 		return rewardPointRepository.findByPointId(id) ?: throw ResourceNotFoundException("Not Found Point")
 	}
 
-	fun getList(searchDate: String): List<RewardPoint>{
+	fun getList(request: RewardPointListRequest, pageable: Pageable): List<RewardPoint>{
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-		val date: LocalDate = LocalDate.parse(searchDate, formatter)
+		val date: LocalDate = LocalDate.parse(request.searchDate, formatter)
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
 		val toDateTime: LocalDateTime = LocalDateTime.of(date, toTime)
-		return rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime)
+		return rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime, pageable)
 	}
 }

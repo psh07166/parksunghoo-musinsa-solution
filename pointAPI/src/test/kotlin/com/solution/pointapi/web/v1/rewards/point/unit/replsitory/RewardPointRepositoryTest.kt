@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -55,9 +57,9 @@ class RewardPointRepositoryTest @Autowired constructor(
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoints[0], point = 0))
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoints[1], point = 0))
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoints[2], point = 0))
-
+		val pageRequest = PageRequest.of(0, 10, Sort.by("createdAt").ascending())
 		//when
-		val actual = rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime)
+		val actual = rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime, pageRequest)
 
 		//then
 		Assertions.assertEquals(expected[0].memberPoint, actual.get(0).memberPoint)
