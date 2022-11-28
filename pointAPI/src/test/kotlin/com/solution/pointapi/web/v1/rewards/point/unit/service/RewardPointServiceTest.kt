@@ -49,9 +49,8 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `보상 데이터를 등록한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val date: LocalDate = LocalDate.now()
-		val time: LocalTime = LocalTime.of(0,0,0)
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
@@ -61,9 +60,9 @@ class RewardPointServiceTest @Autowired constructor(
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId,1)
 		val checkPoint: RewardPoint? = null
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 3, addReward = 100))
 		val expected= RewardPoint(memberPoint = memberPoint, point = 100, createdAt = null, updatedAt = null, delFlg = false)
 
@@ -91,9 +90,8 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `3일 연속 보상 데이터를 등록한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val date: LocalDate = LocalDate.now()
-		val time: LocalTime = LocalTime.of(0,0,0)
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
@@ -103,9 +101,9 @@ class RewardPointServiceTest @Autowired constructor(
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId,1)
 		val checkPoint: RewardPoint? = null
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 2, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 2, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 3, addReward = 300))
 		val expected= RewardPoint(memberPoint = memberPoint, point = 400, createdAt = null, updatedAt = null, delFlg = false)
 
@@ -134,9 +132,8 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `5일 연속 보상 데이터를 등록한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val date: LocalDate = LocalDate.now()
-		val time: LocalTime = LocalTime.of(0,0,0)
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
@@ -146,9 +143,9 @@ class RewardPointServiceTest @Autowired constructor(
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId,1)
 		val checkPoint: RewardPoint? = null
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 4, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 4, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 5, addReward = 500))
 		val expected= RewardPoint(memberPoint = memberPoint, point = 600, createdAt = null, updatedAt = null, delFlg = false)
 
@@ -177,7 +174,7 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `10일 연속 보상 데이터를 등록한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val date: LocalDate = LocalDate.now()
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
@@ -188,9 +185,9 @@ class RewardPointServiceTest @Autowired constructor(
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId,1)
 		val checkPoint: RewardPoint? = null
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 9, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 9, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 10, addReward = 1000))
 		val expected= RewardPoint(memberPoint = memberPoint, point = 1100, createdAt = null, updatedAt = null, delFlg = false)
 
@@ -217,8 +214,7 @@ class RewardPointServiceTest @Autowired constructor(
 	@Test
 	fun `10회 이후 보상 데이터를 등록한다`(){
 		//given
-		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate = LocalDateTime.now()
+		val setDate = LocalDateTime.now()
 		val date: LocalDate = LocalDate.now()
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
@@ -229,9 +225,9 @@ class RewardPointServiceTest @Autowired constructor(
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId, 1)
 		val checkPoint: RewardPoint? = null
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 0, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 0, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 10, addReward = 1000))
 
 		Mockito.`when`(rewardService.getRewardDetail(1)).thenReturn(rewardDetail)
@@ -257,10 +253,8 @@ class RewardPointServiceTest @Autowired constructor(
 	@Test
 	fun `보상 데이터를 같은날 2번 등록한다`(){
 		//given
-		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.now()
+		val setDate: LocalDateTime = LocalDateTime.now()
 		val date: LocalDate = LocalDate.now()
-		val time: LocalTime = LocalTime.of(0,0,0)
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
@@ -269,10 +263,10 @@ class RewardPointServiceTest @Autowired constructor(
 		val toDateTime2 = toDateTime.plusDays(-1)
 		val memberId = 1
 		val pointRequest = RewardPointPutRequest(memberId = memberId,1)
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
-		val checkPoint = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
+		val checkPoint = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false)
 		val reward = Reward(rewardId = 1, subject = "1", content = "1", rewardType = 1, rewardTypeName = "1")
-		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setdate)
+		val rewardDetail = RewardDetail(rewardDetailId = 1, rewardId = 1, rewardCount = 10, quantity = 10, maxContinue = 10, updatedAt = setDate)
 		val rewardAdditional: List<RewardAdditional> = listOf(RewardAdditional(rewardAdditionalId = 1, reward = reward, continueDay = 10, addReward = 1000))
 
 		Mockito.`when`(rewardService.getRewardDetail(1)).thenReturn(rewardDetail)
@@ -298,11 +292,11 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `보상 상세 데이터를 조회한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val memberId = 1
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
-		val point = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false)
-		val expected= RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
+		val point = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false)
+		val expected= RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false)
 
 		Mockito.`when`(pointRepository.findByPointId(1)).thenReturn(point)
 
@@ -319,10 +313,10 @@ class RewardPointServiceTest @Autowired constructor(
 	fun `보상 상세 데이터를 조회에 실패한다`(){
 		//given
 		val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val memberId = 1
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
-		val point = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false)
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
+		val point = RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false)
 
 		Mockito.`when`(pointRepository.findByPointId(2)).thenReturn(point)
 
@@ -345,19 +339,19 @@ class RewardPointServiceTest @Autowired constructor(
 		val toDateTime: LocalDateTime = LocalDateTime.of(date, toTime)
 
 		formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
-		val setdate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
+		val setDate: LocalDateTime = LocalDateTime.parse("2022-11-05 13:47:13.248", formatter)
 		val memberId = 1
-		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setdate, updatedAt = setdate, delFlg = false)
-		val expected : List<RewardPoint>  = listOf(RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false),
-			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setdate, updatedAt = setdate, delFlg = false))
+		val memberPoint = MemberPoint(memberId = memberId, point = 0, getCount = 0, createdAt = setDate, updatedAt = setDate, delFlg = false)
+		val expected : List<RewardPoint>  = listOf(RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false),
+			RewardPoint(memberPoint = memberPoint, point = 10, createdAt = setDate, updatedAt = setDate, delFlg = false))
 
 		Mockito.`when`(pointRepository.findByUpdatedAt(fromDateTime,toDateTime)).thenReturn(expected)
 

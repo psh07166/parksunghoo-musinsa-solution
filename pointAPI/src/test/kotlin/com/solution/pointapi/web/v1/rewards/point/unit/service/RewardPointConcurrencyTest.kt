@@ -18,9 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger
 @SpringBootTest
 @AutoConfigureMockMvc
 class RewardPointConcurrencyTest @Autowired constructor(
-	private val pointRepository: RewardPointRepository,
+	private val rewardPointRepository: RewardPointRepository,
 	private val memberPointRepository: MemberPointRepository,
-	private val pointService: RewardPointService
+	private val rewardPointService: RewardPointService
 ) {
 	@Test
 	fun `동시에 여러번 보상을 지급한다`(){
@@ -33,7 +33,7 @@ class RewardPointConcurrencyTest @Autowired constructor(
 			service.execute {
 				try {
 					val pointRequest = RewardPointPutRequest(i,1)
-					val result = pointService.rewardPoint(pointRequest)
+					val result = rewardPointService.rewardPoint(pointRequest)
 					successCount.getAndIncrement()
 
 				} catch (e: Exception) {
@@ -44,11 +44,11 @@ class RewardPointConcurrencyTest @Autowired constructor(
 		}
 		latch.await();
 		val searchDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-		val pointResult = pointService.getList(searchDate)
+		val pointResult = rewardPointService.getList(searchDate)
 		Assertions.assertEquals(10, pointResult.size)
 		Assertions.assertEquals(10, successCount.get())
 
-		pointRepository.deleteAll()
+		rewardPointRepository.deleteAll()
 		memberPointRepository.deleteAll()
 	}
 }

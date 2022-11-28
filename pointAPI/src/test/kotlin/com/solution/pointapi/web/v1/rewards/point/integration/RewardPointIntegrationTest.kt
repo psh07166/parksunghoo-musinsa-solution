@@ -28,7 +28,7 @@ import javax.persistence.EntityManager
 class RewardPointIntegrationTest @Autowired constructor(
 	private val mockMvc: MockMvc,
 	private val	objectMapper: ObjectMapper,
-	private val pointRepository: RewardPointRepository,
+	private val rewardPointRepository: RewardPointRepository,
 	private val memberPointRepository: MemberPointRepository,
 	private val entityManager: EntityManager,
 ) {
@@ -61,7 +61,7 @@ class RewardPointIntegrationTest @Autowired constructor(
 		val memberPoint = MemberPoint(memberId = 1, point = 0, getCount = 0, updatedAt = null)
 		val point = RewardPoint(memberPoint = memberPoint, point = 100)
 		entityManager.createNativeQuery("ALTER TABLE POINT ALTER COLUMN POINT_ID RESTART WITH 1").executeUpdate();
-		pointRepository.save(point)
+		rewardPointRepository.save(point)
 
 		//when
 		val result: ResultActions = mockMvc.perform(
@@ -102,7 +102,7 @@ class RewardPointIntegrationTest @Autowired constructor(
 			RewardPoint(memberPoint = memberPoint[8], point = 100),
 			RewardPoint(memberPoint = memberPoint[9], point = 100))
 		entityManager.createNativeQuery("ALTER TABLE POINT ALTER COLUMN POINT_ID RESTART WITH 1").executeUpdate();
-		pointRepository.saveAll(points)
+		rewardPointRepository.saveAll(points)
 
 		//when
 		val result: ResultActions = mockMvc.perform(
@@ -119,13 +119,13 @@ class RewardPointIntegrationTest @Autowired constructor(
 	}
 
 	@Test
-	fun `보상 상세 데이터를 조회를 실행한다`(){
+	fun `지급보상 상세 데이터를 조회를 실행한다`(){
 		//given
 		val pointRequest = RewardPointPutRequest(1,1)
 		val memberPoint = MemberPoint(memberId = 1, point = 10, getCount = 0, updatedAt = null)
 		val point = RewardPoint(memberPoint = memberPoint, point = 100)
 		entityManager.createNativeQuery("ALTER TABLE POINT ALTER COLUMN POINT_ID RESTART WITH 1").executeUpdate();
-		pointRepository.save(point)
+		rewardPointRepository.save(point)
 
 		//when
 		val result: ResultActions = mockMvc.perform(
@@ -144,7 +144,7 @@ class RewardPointIntegrationTest @Autowired constructor(
 	}
 
 	@Test
-	fun `특정 날짜 보상을 데이터를 조회한다`(){
+	fun `특정 날짜 지급보상을 데이터를 조회한다`(){
 		//given
 		val pointRequest = RewardPointPutRequest(11,1)
 		val searchDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -169,7 +169,7 @@ class RewardPointIntegrationTest @Autowired constructor(
 			RewardPoint(memberPoint = memberPoint[8], point = 100),
 			RewardPoint(memberPoint = memberPoint[9], point = 100))
 		entityManager.createNativeQuery("ALTER TABLE POINT ALTER COLUMN POINT_ID RESTART WITH 1").executeUpdate();
-		pointRepository.saveAll(points)
+		rewardPointRepository.saveAll(points)
 
 		//when
 		val result: ResultActions = mockMvc.perform(

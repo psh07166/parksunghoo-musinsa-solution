@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class RewardController(
 	private val rewardService: RewardService
 ) {
-	@GetMapping("/detail/{rewardId}")
+	@GetMapping("/{rewardId}")
 	fun detail(
 		@PathVariable rewardId: Int
 	): ResponseEntity<RewardResponse> {

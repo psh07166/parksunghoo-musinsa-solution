@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
 
 @Service
 class RewardPointService(
-	private val pointRepository: RewardPointRepository,
+	private val rewardPointRepository: RewardPointRepository,
 	private val memberPointService: MemberPointService,
 	private val rewardService: RewardService
 ) {
@@ -49,30 +49,30 @@ class RewardPointService(
 			}
 		}
 
-		var checkPoint = pointRepository.findByMemberIdAndUpdatedAtForUpdate(request.memberId, fromDateTime, toDateTime)
+		var checkPoint = rewardPointRepository.findByMemberIdAndUpdatedAtForUpdate(request.memberId, fromDateTime, toDateTime)
 		if (checkPoint != null) {
 			throw IllegalArgumentException("already get point")
 		}
 
 		fromDateTime = fromDateTime.plusDays(-1)
 		toDateTime = toDateTime.plusDays(-1)
-		checkPoint = pointRepository.findByMemberIdAndUpdatedAtForUpdate(request.memberId, fromDateTime, toDateTime)
+		checkPoint = rewardPointRepository.findByMemberIdAndUpdatedAtForUpdate(request.memberId, fromDateTime, toDateTime)
 
 		memberPoint.point = memberPoint.point + point
-		memberPoint.getCount = if(memberPoint.getCount == checkRewardQuantity.maxContinue - 1 || checkPoint == null) 0 else memberPoint.getCount + 1
+		memberPoint.getCount = if(memberPoint.getCount == checkRewardQuantity.maxContinue  || checkPoint == null) 1 else memberPoint.getCount + 1
 
 		val postPoint = RewardPoint(
 			memberPoint = memberPoint,
 			point = point
 		)
-		pointRepository.save(postPoint)
+		rewardPointRepository.save(postPoint)
 		rewardService.saveRewardDetail(checkRewardQuantity)
 
 		return postPoint
 	}
 
 	fun getDetail(id: Int): RewardPoint {
-		return pointRepository.findByPointId(id) ?: throw ResourceNotFoundException("Not Found Point")
+		return rewardPointRepository.findByPointId(id) ?: throw ResourceNotFoundException("Not Found Point")
 	}
 
 	fun getList(searchDate: String): List<RewardPoint>{
@@ -82,6 +82,6 @@ class RewardPointService(
 		val toTime: LocalTime = LocalTime.of(23,59,59)
 		val fromDateTime: LocalDateTime = LocalDateTime.of(date, fromTime)
 		val toDateTime: LocalDateTime = LocalDateTime.of(date, toTime)
-		return pointRepository.findByUpdatedAt(fromDateTime, toDateTime)
+		return rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime)
 	}
 }

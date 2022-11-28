@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter
 @AutoConfigureMockMvc
 class RewardPointControllerTest @Autowired constructor(
 	@MockBean
-	private val pointService: RewardPointService
+	private val rewardPointService: RewardPointService
 ) {
 	@BeforeEach
 	fun setUp() {
@@ -40,14 +40,14 @@ class RewardPointControllerTest @Autowired constructor(
 		val putRequest = RewardPointPutRequest(1,1)
 		val point = RewardPoint(pointId= 1, memberPoint = memberPoint, point = 100)
 		val expected: ResponseEntity<HttpStatus> = ResponseEntity.created(URI.create("/rewards/points/1")).build()
-		Mockito.`when`(pointService.rewardPoint(putRequest)).thenReturn(point)
+		Mockito.`when`(rewardPointService.rewardPoint(putRequest)).thenReturn(point)
 
 		//when
-		val pointController = RewardPointController(pointService)
-		val actual = pointController.take(putRequest)
+		val pointController = RewardPointController(rewardPointService)
+		val actual = pointController.rewardPoint(putRequest)
 
 		//then
-		Mockito.verify(pointService, Mockito.times(1)).rewardPoint(putRequest)
+		Mockito.verify(rewardPointService, Mockito.times(1)).rewardPoint(putRequest)
 
 		Assertions.assertEquals(expected, actual)
 		Assertions.assertEquals(expected.statusCode, actual.statusCode)
@@ -60,14 +60,14 @@ class RewardPointControllerTest @Autowired constructor(
 		val putRequest = RewardPointPutRequest(1,1)
 		val point = RewardPoint(pointId= 1, memberPoint = memberPoint, point = 100)
 		val expected: ResponseEntity<RewardPointResponse> = ResponseEntity.ok(RewardPointResponse.of(point))
-		Mockito.`when`(pointService.getDetail(1)).thenReturn(point)
+		Mockito.`when`(rewardPointService.getDetail(1)).thenReturn(point)
 
 		//when
-		val pointController = RewardPointController(pointService)
+		val pointController = RewardPointController(rewardPointService)
 		val actual = pointController.detail(1)
 
 		//then
-		Mockito.verify(pointService, Mockito.times(1)).getDetail(1)
+		Mockito.verify(rewardPointService, Mockito.times(1)).getDetail(1)
 
 		Assertions.assertEquals(expected.body!!.getData(), actual.body!!.getData())
 		Assertions.assertEquals(expected.statusCode, actual.statusCode)
@@ -86,14 +86,14 @@ class RewardPointControllerTest @Autowired constructor(
 		val expected: ResponseEntity<RewardPointListResponse> = ResponseEntity.ok(RewardPointListResponse.of(points))
 
 
-		Mockito.`when`(pointService.getList(searchDate)).thenReturn(points)
+		Mockito.`when`(rewardPointService.getList(searchDate)).thenReturn(points)
 
 		//when
-		val pointController = RewardPointController(pointService)
+		val pointController = RewardPointController(rewardPointService)
 		val actual = pointController.list(searchDate)
 
 		//then
-		Mockito.verify(pointService, Mockito.times(1)).getList(searchDate)
+		Mockito.verify(rewardPointService, Mockito.times(1)).getList(searchDate)
 
 		Assertions.assertEquals(expected.body!!.getData(), actual.body!!.getData())
 		Assertions.assertEquals(expected.statusCode, actual.statusCode)

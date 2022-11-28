@@ -12,13 +12,13 @@ import java.net.URI
 @RestController
 @RequestMapping("/rewards/points", "/v1/rewards/points")
 class RewardPointController(
-	private val pointService: RewardPointService
+	private val rewardPointService: RewardPointService
 ) {
 	@PutMapping
-	fun take(
+	fun rewardPoint(
 		@RequestBody requestBody: RewardPointPutRequest
 	): ResponseEntity<HttpStatus> {
-		val result = pointService.rewardPoint(requestBody)
+		val result = rewardPointService.rewardPoint(requestBody)
 		return ResponseEntity.created(URI.create("/rewards/points/${result.pointId}")).build()
 	}
 
@@ -26,12 +26,12 @@ class RewardPointController(
 	fun detail(
 		@PathVariable pointId: Int
 	):ResponseEntity<RewardPointResponse>{
-		return ResponseEntity.ok(RewardPointResponse.of(pointService.getDetail(pointId)))
+		return ResponseEntity.ok(RewardPointResponse.of(rewardPointService.getDetail(pointId)))
 	}
 
 	@GetMapping("/{date}")
 	fun list(@PathVariable date: String
 	): ResponseEntity<RewardPointListResponse> {
-		return ResponseEntity.ok(RewardPointListResponse.of(pointService.getList(date)))
+		return ResponseEntity.ok(RewardPointListResponse.of(rewardPointService.getList(date)))
 	}
 }

@@ -16,7 +16,6 @@ data class RewardPoint(
 	@Column(name = "POINT_ID")
 	val pointId: Int? = null,
 
-	//@Column(name = "MEMBER_ID")
 	@ManyToOne
 	@JoinColumn(name = "MEMBER_ID")
 	val memberPoint: MemberPoint,

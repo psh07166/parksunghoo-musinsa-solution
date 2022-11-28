@@ -4,15 +4,15 @@ import com.solution.pointapi.web.v1.rewards.point.entity.RewardPoint
 import java.util.stream.Collectors
 
 class RewardPointListResponse (
-	private val points: Map<String, Any>
+	private val rewardPoints: Map<String, Any>
 ) {
-	fun getData() = points
+	fun getData() = rewardPoints
 
 	companion object {
-		fun of(point: List<RewardPoint>) : RewardPointListResponse {
+		fun of(rewardPoint: List<RewardPoint>) : RewardPointListResponse {
 
 			val result: Map<String, Any> = mapOf(
-				"content" to point.stream().map {
+				"content" to rewardPoint.stream().map {
 					mapOf(
 
 						"memberId" to it.memberPoint.memberId,

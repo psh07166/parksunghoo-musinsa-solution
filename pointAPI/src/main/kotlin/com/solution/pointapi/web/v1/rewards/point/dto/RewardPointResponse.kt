@@ -3,20 +3,20 @@ package com.solution.pointapi.web.v1.rewards.point.dto
 import com.solution.pointapi.web.v1.rewards.point.entity.RewardPoint
 
 class RewardPointResponse(
-	private val point: Map<String, Any?>
+	private val rewardPoint: Map<String, Any?>
 ) {
-	fun getData() = point
+	fun getData() = rewardPoint
 
 	companion object {
-		fun of(point: RewardPoint): RewardPointResponse {
+		fun of(rewardPoint: RewardPoint): RewardPointResponse {
 			return RewardPointResponse(
 				mutableMapOf(
-					"id" to point.pointId,
-					"memberId" to point.memberPoint.memberId,
-					"point" to point.point,
-					"createdAt" to point.createdAt,
-					"updatedAt" to point.updatedAt,
-					"delFlg" to point.delFlg
+					"id" to rewardPoint.pointId,
+					"memberId" to rewardPoint.memberPoint.memberId,
+					"point" to rewardPoint.point,
+					"createdAt" to rewardPoint.createdAt,
+					"updatedAt" to rewardPoint.updatedAt,
+					"delFlg" to rewardPoint.delFlg
 				)
 			)
 		}

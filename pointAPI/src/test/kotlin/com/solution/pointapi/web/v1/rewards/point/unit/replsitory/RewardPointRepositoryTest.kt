@@ -12,17 +12,16 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @DataJpaTest
 class RewardPointRepositoryTest @Autowired constructor(
 	private var testEntityManager: TestEntityManager,
-	private var pointRepository: RewardPointRepository
+	private var rewardPointRepository: RewardPointRepository
 
 ) {
 	@Test
 	@Transactional
-	fun `입력받은 id로 보상 데이터 조회를 조회한다`(){
+	fun `입력받은 id로 보상받은 데이터 조회를 조회한다`(){
 		//given
 		val memberPoint = MemberPoint(memberId = 1, point = 0, getCount = 0)
 		val expected = RewardPoint(memberPoint = memberPoint, point = 0)
@@ -30,7 +29,7 @@ class RewardPointRepositoryTest @Autowired constructor(
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoint, point = 0))
 
 		//when
-		val actual = pointRepository.findByPointId(1)
+		val actual = rewardPointRepository.findByPointId(1)
 
 		//then
 		Assertions.assertEquals(expected.memberPoint, actual!!.memberPoint)
@@ -39,7 +38,7 @@ class RewardPointRepositoryTest @Autowired constructor(
 
 	@Test
 	@Transactional
-	fun `지정한 날짜에 포함되는 보상 데이터를 조회한다`(){
+	fun `지정한 날짜에 포함되는 보상받은 데이터를 조회한다`(){
 		//given
 		val date: LocalDate = LocalDate.now()
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
@@ -58,7 +57,7 @@ class RewardPointRepositoryTest @Autowired constructor(
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoints[2], point = 0))
 
 		//when
-		val actual = pointRepository.findByUpdatedAt(fromDateTime, toDateTime)
+		val actual = rewardPointRepository.findByUpdatedAt(fromDateTime, toDateTime)
 
 		//then
 		Assertions.assertEquals(expected[0].memberPoint, actual.get(0).memberPoint)
@@ -67,7 +66,7 @@ class RewardPointRepositoryTest @Autowired constructor(
 
 	@Test
 	@Transactional
-	fun `지정한 사용자와 날짜에 포함되는 보상 데이터를 조회한다`(){
+	fun `지정한 사용자와 날짜에 포함되는 보상받은 데이터를 조회한다`(){
 		//given
 		val date: LocalDate = LocalDate.now()
 		val fromTime: LocalTime = LocalTime.of(0,0,0)
@@ -86,7 +85,7 @@ class RewardPointRepositoryTest @Autowired constructor(
 		testEntityManager.persist(RewardPoint(memberPoint = memberPoints[2], point = 0))
 
 		//when
-		val actual = pointRepository.findByMemberIdAndUpdatedAtForUpdate(1, fromDateTime, toDateTime)
+		val actual = rewardPointRepository.findByMemberIdAndUpdatedAtForUpdate(1, fromDateTime, toDateTime)
 
 		//then
 		Assertions.assertEquals(expected[0].memberPoint, actual?.memberPoint)
